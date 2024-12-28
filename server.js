@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // ROUTES
+app.use('/api/user', require('./routes/userRoutes'));
 
 app.use(errorHandler);
 
