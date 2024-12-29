@@ -1,5 +1,4 @@
 const asyncHandler = require('express-async-handler');
-const Access = require('../models/accessModel');
 const {getAccessToken} = require('../utils/getAccessToken');
 
 // @desc   Getting the access token
