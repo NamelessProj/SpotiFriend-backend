@@ -20,6 +20,11 @@ const userSchema = mongoose.Schema({
         required: true,
         select: false
     },
+    role: {
+        type: String,
+        default: 'user',
+        enum: ['user']
+    },
 });
 
 userSchema.methods.matchPassword = async function(password){
