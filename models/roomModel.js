@@ -21,7 +21,15 @@ const roomSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true
-    }
+    },
+    isPrivate: {
+        type: Boolean,
+        default: true
+    },
+    playlistId: {
+        type: String,
+        required: true
+    },
 });
 
 module.exports = mongoose.model('Room', roomSchema);
