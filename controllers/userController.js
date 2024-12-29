@@ -87,7 +87,38 @@ const register = asyncHandler(async (req, res) => {
     }
 });
 
+// @desc   Logout a user
+// @route  POST /api/user/logout
+// @access Private
+const logout = asyncHandler(async (req, res) => {
+    res.cookie('jwt', '', {
+        httpOnly: true,
+        expires: new Date(0),
+    });
+    res.status(200).json({message: 'User has been logged out.'});
+});
+
+// @desc   Delete a user
+// @route  DELETE /api/user/
+// @access Private
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = req.user;
+    if(!user){
+        res.status(401);
+        throw new Error("User not found.");
+    }
+
+    await User.findByIdAndDelete(user._id);
+    res.cookie('jwt', '', {
+        httpOnly: true,
+        expires: new Date(0),
+    });
+    res.status(200).json({message: `The user has been deleted successfully.`});
+});
+
 module.exports = {
     login,
-    register
+    register,
+    logout,
+    deleteUser
 }
