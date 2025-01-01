@@ -39,7 +39,7 @@ const acceptProposition = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error("Proposition not found.");
     }
-    const room = await Room.find({uri: proposition.room});
+    const room = await Room.findById(proposition.room);
     if(!room){
         res.status(404);
         throw new Error("Room not found.");
