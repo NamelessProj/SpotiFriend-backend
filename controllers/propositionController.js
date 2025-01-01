@@ -29,9 +29,9 @@ const addProposition = asyncHandler(async (req, res) => {
     res.status(201).json({proposition});
 });
 
-// @desc   Adding a proposition
+// @desc   Accepting a proposition
 // @route  POST /api/proposition/:id/accept
-// @access Public
+// @access Private (admin)
 const acceptProposition = asyncHandler(async (req, res) => {
     const {id} = req.params; // Proposition's id
     const proposition = await Proposition.findById(id);
