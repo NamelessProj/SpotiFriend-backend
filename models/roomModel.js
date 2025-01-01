@@ -17,11 +17,6 @@ const roomSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    uri: {
-        type: String,
-        required: true,
-        unique: true
-    },
     isPrivate: {
         type: Boolean,
         default: true
