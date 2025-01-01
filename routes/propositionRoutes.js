@@ -23,4 +23,9 @@ router.route('/:id/accept').post(adminProtect, propController.acceptProposition)
 // @access Private (admin)
 router.route('/:id').delete(adminProtect, propController.deleteProposition);
 
+// @route Proposition route (DELETE)
+// @desc Route to delete all propositions of a room
+// @access Private (admin)
+router.route('/room/:id').delete(adminProtect, propController.deleteAllPropositions);
+
 module.exports = router;
