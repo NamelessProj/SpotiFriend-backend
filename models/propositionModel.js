@@ -13,7 +13,8 @@ const authorSchema = mongoose.Schema({
 
 const propositionSchema = mongoose.Schema({
     room: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
         required: true
     },
     song: {
