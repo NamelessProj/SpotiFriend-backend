@@ -41,7 +41,7 @@ const createRoom = asyncHandler(async (req, res) => {
 
     if(!room){
         res.status(400);
-        throw new Error("An error occured while creating the room.");
+        throw new Error("An error occurred while creating the room.");
     }
     res.status(201).json({room});
 });
