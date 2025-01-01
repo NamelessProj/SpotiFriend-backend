@@ -59,8 +59,13 @@ const acceptProposition = asyncHandler(async (req, res) => {
 // @access Private (admin)
 const deleteProposition = asyncHandler(async (req, res) => {
     const {id} = req.params;
+    const propositionExist = await Proposition.findById(id);
+    if(!propositionExist){
+        res.status(404);
+        throw new Error("Proposition not found.");
+    }
     await Proposition.findByIdAndDelete(id);
-    const propositions = await Proposition.find();
+    const propositions = await Proposition.find({room: propositionExist.room});
     res.status(200).json({propositions});
 });
 
