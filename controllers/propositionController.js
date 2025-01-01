@@ -70,8 +70,7 @@ const deleteProposition = asyncHandler(async (req, res) => {
 const deleteAllPropositions = asyncHandler(async (req, res) => {
     const {id} = req.params;
     await Proposition.deleteMany({room: id});
-    const propositions = await Proposition.find();
-    res.status(200).json({propositions});
+    res.status(200).json({message: "Propositions deleted."});
 });
 
 module.exports = {
