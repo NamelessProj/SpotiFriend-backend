@@ -98,6 +98,59 @@ const logout = asyncHandler(async (req, res) => {
     res.status(200).json({message: 'User has been logged out.'});
 });
 
+// @desc   Update a user
+// @route  PUT /api/user/
+// @access Private
+const updateUser = asyncHandler(async (req, res) => {
+    const user = req.user;
+    if(!user){
+        res.status(401);
+        throw new Error("User not found.");
+    }
+
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+    user.password = req.body.password || user.password;
+
+    // Checking if a user with this email exist, if yes sending an error
+    const emailExists = await User.findOne({
+        email: user.email,
+        _id: {$ne: user._id}
+    });
+    if(emailExists){
+        res.status(400);
+        throw new Error("This email is already in use.");
+    }
+
+    // Checking if a user with this username exist, if yes sending an error
+    const usernameExists = await User.findOne({
+        username: user.username,
+        _id: {$ne: user._id}
+    });
+    if(usernameExists){
+        res.status(400);
+        throw new Error("This username is already taken.");
+    }
+
+    // Checks if the username is not too long or too short
+    if(username.length < 3){
+        res.status(400);
+        throw new Error("The username must be at least 3 characters.");
+    }
+    if(username.length > 20){
+        res.status(400);
+        throw new Error("The username must be under 20 characters.");
+    }
+
+    // Updating the user
+    await user.save();
+
+    // Removing the password from the user's information
+    const returnUser = Object.fromEntries(Object.entries(user._doc).filter(([key]) => key !== 'password'));
+
+    res.status(200).json({user: returnUser});
+});
+
 // @desc   Delete a user
 // @route  DELETE /api/user/
 // @access Private
@@ -120,5 +173,6 @@ module.exports = {
     login,
     register,
     logout,
+    updateUser,
     deleteUser
 }
