@@ -64,9 +64,20 @@ const deleteProposition = asyncHandler(async (req, res) => {
     res.status(200).json({propositions});
 });
 
+// @desc   Removing all propositions of a room
+// @route  DELETE /api/proposition/room/:id
+// @access Private (admin)
+const deleteAllPropositions = asyncHandler(async (req, res) => {
+    const {id} = req.params;
+    await Proposition.deleteMany({room: id});
+    const propositions = await Proposition.find();
+    res.status(200).json({propositions});
+});
+
 module.exports = {
     getPropositions,
     addProposition,
     acceptProposition,
-    deleteProposition
+    deleteProposition,
+    deleteAllPropositions
 }
