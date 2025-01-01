@@ -18,6 +18,11 @@ router.route('/register').post(userController.register);
 // @access Public
 router.route('/logout').post(userController.logout);
 
+// @route User route (PUT)
+// @desc Route to update a user
+// @access Private
+router.route('/').put(protect, userController.updateUser);
+
 // @route User route (POST)
 // @desc Route to delete a user
 // @access Private
