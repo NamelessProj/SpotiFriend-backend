@@ -20,6 +20,7 @@ app.use(express.urlencoded({extended: false}));
 
 // ROUTES
 app.use('/api/user', require('./routes/userRoutes'));
+app.use('/api/proposition', require('./routes/propositionRoutes'));
 app.use('/api/access', require('./routes/accessRoutes'));
 
 app.use(errorHandler);
