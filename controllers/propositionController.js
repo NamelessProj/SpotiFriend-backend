@@ -52,6 +52,10 @@ const acceptProposition = asyncHandler(async (req, res) => {
             'Authorization': `Bearer ${token.token}`
         }
     });
+
+    await Proposition.findByIdAndDelete(id);
+    const propositions = await Proposition.find({room: proposition.room});
+    res.status(200).json({propositions});
 });
 
 // @desc   Removing a proposition
