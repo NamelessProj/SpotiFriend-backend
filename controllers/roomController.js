@@ -19,14 +19,14 @@ const createRoom = asyncHandler(async (req, res) => {
 
     // Checking if the fields are filled
     if(!name || !description || !playlistId || name === '' || description === '' || playlistId === '' || isPrivate === undefined){
-        res.status(400);
+        res.status(400).json({message: "Please fill all the required fields"});
         throw new Error("Please fill all the required fields");
     }
 
     // Checking if the room exist
     const roomExists = await Room.findOne({name});
     if(roomExists){
-        res.status(400);
+        res.status(400).json({message: "This room already exist."});
         throw new Error("This room already exist.");
     }
 
@@ -40,7 +40,7 @@ const createRoom = asyncHandler(async (req, res) => {
     });
 
     if(!room){
-        res.status(400);
+        res.status(400).json({message: "An error occurred while creating the room."});
         throw new Error("An error occurred while creating the room.");
     }
     res.status(201).json({room});
@@ -55,7 +55,7 @@ const updateRoom = asyncHandler(async (req, res) => {
     // Getting the room
     const room = await Room.findById(id);
     if(!room){
-        res.status(404);
+        res.status(404).json({message: "Room not found."});
         throw new Error("Room not found.");
     }
 

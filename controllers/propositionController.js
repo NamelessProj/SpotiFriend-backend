@@ -36,12 +36,12 @@ const acceptProposition = asyncHandler(async (req, res) => {
     const {id} = req.params; // Proposition's id
     const proposition = await Proposition.findById(id);
     if(!proposition){
-        res.status(404);
+        res.status(404).json({message: "Proposition not found."});
         throw new Error("Proposition not found.");
     }
     const room = await Room.findById(proposition.room);
     if(!room){
-        res.status(404);
+        res.status(404).json({message: "Room not found."});
         throw new Error("Room not found.");
     }
     const token = await getAccessToken();
@@ -65,7 +65,7 @@ const deleteProposition = asyncHandler(async (req, res) => {
     const {id} = req.params;
     const propositionExist = await Proposition.findById(id);
     if(!propositionExist){
-        res.status(404);
+        res.status(404).json({message: "Proposition not found."});
         throw new Error("Proposition not found.");
     }
     await Proposition.findByIdAndDelete(id);
