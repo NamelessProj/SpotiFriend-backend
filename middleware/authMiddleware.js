@@ -12,11 +12,11 @@ const protect = asyncHandler(async (req, res, next) => {
             next();
         }catch(error){
             console.log(error);
-            res.status(401);
+            res.status(401).json({message: 'Not authorized, token error.'});
             throw new Error('Not authorized, token error.');
         }
     }else{
-        res.status(401);
+        res.status(401).json({message: 'Not authorized, no token.'});
         throw new Error('Not authorized, no token.');
     }
 })
@@ -31,11 +31,11 @@ const adminProtect = asyncHandler(async (req, res, next) => {
             next();
         }catch(error){
             console.log(error);
-            res.status(401);
+            res.status(401).json({message: 'Not authorized, token error.'});
             throw new Error('Not authorized, token error.');
         }
     }else{
-        res.status(401);
+        res.status(401).json({message: 'Not authorized, no token.'});
         throw new Error('Not authorized, no token.');
     }
 });
