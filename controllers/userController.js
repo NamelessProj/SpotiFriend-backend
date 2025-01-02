@@ -110,7 +110,6 @@ const updateUser = asyncHandler(async (req, res) => {
 
     user.username = req.body.username || user.username;
     user.email = req.body.email || user.email;
-    user.password = req.body.password || user.password;
 
     // Checking if a user with this email exist, if yes sending an error
     const emailExists = await User.findOne({
@@ -133,11 +132,11 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 
     // Checks if the username is not too long or too short
-    if(username.length < 3){
+    if(user.username.length < 3){
         res.status(400).json({message: "The username must be at least 3 characters."});
         throw new Error("The username must be at least 3 characters.");
     }
-    if(username.length > 20){
+    if(user.username.length > 20){
         res.status(400).json({message: "The username must be under 20 characters."});
         throw new Error("The username must be under 20 characters.");
     }
