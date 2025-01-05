@@ -9,6 +9,4 @@ const getTheAccessToken = asyncHandler(async (req, res) => {
     res.status(200).json({token});
 });
 
-module.exports = {
-    getTheAccessToken
-}
+module.exports = {getTheAccessToken}
