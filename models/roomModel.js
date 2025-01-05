@@ -21,6 +21,10 @@ const roomSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
+    isPublic: {
+        type: Boolean,
+        default: false
+    },
     playlistId: {
         type: String,
         required: true
