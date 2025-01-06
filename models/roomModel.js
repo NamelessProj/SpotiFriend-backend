@@ -17,17 +17,9 @@ const roomSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    isPrivate: {
-        type: Boolean,
-        default: true
-    },
     isPublic: {
         type: Boolean,
         default: false
-    },
-    playlistId: {
-        type: String,
-        required: true
     },
 });
 
