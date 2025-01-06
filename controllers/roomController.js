@@ -16,6 +16,10 @@ const getRooms = asyncHandler(async (req, res) => {
 const getRoomById = asyncHandler(async (req, res) => {
     const {id} = req.params;
     const room = await Room.findOne({_id: id, isPublic: true});
+    if(!room){
+        res.status(404).json({message: "Room not found."});
+        throw new Error("Room not found.");
+    }
     res.status(200).json({room});
 });
 
