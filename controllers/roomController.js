@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const Room = require('../models/roomModel');
-const Proposition = require('../models/propositionModel');
 
 // @desc   Getting all rooms
 // @route  GET /api/room/
@@ -83,7 +82,6 @@ const updateRoom = asyncHandler(async (req, res) => {
 const deleteRoom = asyncHandler(async (req, res) => {
     const {id} = req.params;
     await Room.findByIdAndDelete(id);
-    await Proposition.deleteMany({room: id});
     const rooms = await Room.find();
     res.status(200).json({rooms});
 });
