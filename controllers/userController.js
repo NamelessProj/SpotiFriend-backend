@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const Room = require('../models/roomModel');
 const {generateToken} = require('../utils/generateToken');
 
 // @desc   Login a user
@@ -161,6 +162,8 @@ const deleteUser = asyncHandler(async (req, res) => {
     }
 
     await User.findByIdAndDelete(user._id);
+    await Room.deleteMany({owner: user._id});
+
     res.cookie('jwt', '', {
         httpOnly: true,
         expires: new Date(0),
