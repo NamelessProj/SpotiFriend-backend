@@ -23,11 +23,11 @@ const getRoomById = asyncHandler(async (req, res) => {
 // @route  POST /api/room/
 // @access Private (Admin)
 const createRoom = asyncHandler(async (req, res) => {
-    const {name, description, isPrivate, playlistId} = req.body;
+    const {name, description, isPublic} = req.body;
     const user = req.user;
 
     // Checking if the fields are filled
-    if(!name || !description || !playlistId || name === '' || description === '' || playlistId === '' || isPrivate === undefined){
+    if(!name || !description || name === '' || description === '' || isPublic === undefined){
         res.status(400).json({message: "Please fill all the required fields"});
         throw new Error("Please fill all the required fields");
     }
@@ -43,8 +43,7 @@ const createRoom = asyncHandler(async (req, res) => {
     const room = await Room.create({
         name,
         description,
-        isPrivate,
-        playlistId,
+        isPublic,
         owner: user._id
     });
 
@@ -71,8 +70,7 @@ const updateRoom = asyncHandler(async (req, res) => {
     // Updating the room information
     room.name = req.body.name || room.name;
     room.description = req.body.description || room.description;
-    room.isPrivate = req.body.isPrivate || room.isPrivate;
-    room.playlistId = req.body.playlistId || room.playlistId;
+    room.isPublic = req.body.isPublic || room.isPublic;
 
     await room.save();
 
