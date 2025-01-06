@@ -8,6 +8,11 @@ const {adminProtect} = require('../middleware/authMiddleware');
 // @access Private (admin)
 router.route('/').get(adminProtect, roomController.getRooms);
 
+// @route Room route (GET)
+// @desc Route to get a room by its id
+// @access Public
+router.route('/:id').get(roomController.getRoomById);
+
 // @route Room route (POST)
 // @desc Route to create a room
 // @access Private (admin)
