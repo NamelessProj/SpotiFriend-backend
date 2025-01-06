@@ -30,6 +30,13 @@ const createRoom = asyncHandler(async (req, res) => {
     const {name, description, isPublic} = req.body;
     const user = req.user;
 
+    // Making sure the user doesn't have more than 10 rooms
+    const roomsNumber = await Room.find({owner: user._id}).countDocuments();
+    if(roomsNumber >= 10){
+        res.status(400).json({message: "You can't have more than 10 rooms."});
+        throw new Error("You can't have more than 10 rooms.");
+    }
+
     // Checking if the fields are filled
     if(!name || !description || name === '' || description === '' || isPublic === undefined){
         res.status(400).json({message: "Please fill all the required fields"});
