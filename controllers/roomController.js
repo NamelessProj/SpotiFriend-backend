@@ -3,9 +3,10 @@ const Room = require('../models/roomModel');
 
 // @desc   Getting all rooms
 // @route  GET /api/room/
-// @access Private (Admin)
+// @access Private
 const getRooms = asyncHandler(async (req, res) => {
-    const rooms = await Room.find();
+    const user = req.user;
+    const rooms = await Room.find({owner: user._id}); // Getting all the rooms of the user
     res.status(200).json({rooms});
 });
 
@@ -20,7 +21,7 @@ const getRoomById = asyncHandler(async (req, res) => {
 
 // @desc   Creating a room
 // @route  POST /api/room/
-// @access Private (Admin)
+// @access Private
 const createRoom = asyncHandler(async (req, res) => {
     const {name, description, isPublic} = req.body;
     const user = req.user;
@@ -55,12 +56,13 @@ const createRoom = asyncHandler(async (req, res) => {
 
 // @desc   Updating a room
 // @route  PUT /api/room/:id
-// @access Private (Admin)
+// @access Private
 const updateRoom = asyncHandler(async (req, res) => {
     const {id} = req.params;
+    const user = req.user;
 
     // Getting the room
-    const room = await Room.findById(id);
+    const room = await Room.findOne({_id: id, owner: user._id});
     if(!room){
         res.status(404).json({message: "Room not found."});
         throw new Error("Room not found.");
@@ -78,11 +80,19 @@ const updateRoom = asyncHandler(async (req, res) => {
 
 // @desc   Deleting a room
 // @route  DELETE /api/room/:id
-// @access Private (Admin)
+// @access Private
 const deleteRoom = asyncHandler(async (req, res) => {
     const {id} = req.params;
+    const user = req.user;
+
+    const room = await Room.findOne({_id: id, owner: user._id});
+    if(!room){
+        res.status(404).json({message: "Room not found."});
+        throw new Error("Room not found.");
+    }
+
     await Room.findByIdAndDelete(id);
-    const rooms = await Room.find();
+    const rooms = await Room.find({owner: user._id});
     res.status(200).json({rooms});
 });
 
