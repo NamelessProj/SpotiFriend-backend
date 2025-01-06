@@ -9,7 +9,7 @@ const addProposition = asyncHandler(async (req, res) => {
     const {song} = req.body; // Must send an object "song" with the song's information in the body
     const {roomId} = req.params;
 
-    const room = await Room.findById(roomId).populate("owner");
+    const room = await Room.findOne({_id: roomId, isPublic: true}).populate("owner");
     if(!room){
         res.status(404).json({message: "Room not found."});
         throw new Error("Room not found.");
