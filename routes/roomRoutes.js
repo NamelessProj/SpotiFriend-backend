@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const roomController = require('../controllers/roomController');
-const {adminProtect} = require('../middleware/authMiddleware');
+const {protect} = require('../middleware/authMiddleware');
 
 // @route Room route (GET)
 // @desc Route to get every room
-// @access Private (admin)
-router.route('/').get(adminProtect, roomController.getRooms);
+// @access Private
+router.route('/').get(protect, roomController.getRooms);
 
 // @route Room route (GET)
 // @desc Route to get a room by its id
@@ -15,17 +15,17 @@ router.route('/:id').get(roomController.getRoomById);
 
 // @route Room route (POST)
 // @desc Route to create a room
-// @access Private (admin)
-router.route('/').post(adminProtect, roomController.createRoom);
+// @access Private
+router.route('/').post(protect, roomController.createRoom);
 
 // @route Room route (PUT)
 // @desc Route to update a room
-// @access Private (admin)
-router.route('/:id').put(adminProtect, roomController.updateRoom);
+// @access Private
+router.route('/:id').put(protect, roomController.updateRoom);
 
 // @route Room route (DELETE)
 // @desc Route to delete a room
-// @access Private (admin)
-router.route('/:id').delete(adminProtect, roomController.deleteRoom);
+// @access Private
+router.route('/:id').delete(protect, roomController.deleteRoom);
 
 module.exports = router;
