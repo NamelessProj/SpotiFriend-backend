@@ -26,6 +26,6 @@ router.route('/').put(protect, userController.updateUser);
 // @route User route (POST)
 // @desc Route to delete a user
 // @access Private
-router.route('/').delete(protect, userController.deleteUser);
+router.route('/delete').post(protect, userController.deleteUser);
 
 module.exports = router;
