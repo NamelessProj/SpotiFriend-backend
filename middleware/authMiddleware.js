@@ -3,7 +3,7 @@ const asyncHandler  = require('express-async-handler');
 const User = require('../models/userModel');
 
 const protect = asyncHandler(async (req, res, next) => {
-    const token = req.cookies.jwt;
+    const token = req.cookies.spoti_jwt;
 
     if(token){
         try{
@@ -22,7 +22,7 @@ const protect = asyncHandler(async (req, res, next) => {
 })
 
 const adminProtect = asyncHandler(async (req, res, next) => {
-    const token = req.cookies.jwt;
+    const token = req.cookies.spoti_jwt;
 
     if(token){
         try{
