@@ -5,7 +5,7 @@ const generateToken = (res, _id) => {
         expiresIn: '30d'
     });
 
-    res.cookie('jwt', token, {
+    res.cookie('spoti_jwt', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== 'dev',
         sameSite: 'strict',
