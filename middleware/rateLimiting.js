@@ -9,6 +9,7 @@ const limiter = rateLimit({
     message: "Too many requests from this IP, please try again after a minute.",
     handler: (req, res) => {
         res.status(429).json({message: "Too many requests from this IP, please try again after a minute."});
+        throw new Error("Too many requests from this IP, please try again after a minute.");
     },
     keyGenerator: (req) => {
         return req.ip;
