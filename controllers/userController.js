@@ -158,6 +158,12 @@ const deleteUser = asyncHandler(async (req, res) => {
     const user = req.user;
     const {password} = req.body;
     
+    // Checking if the password is filled
+    if(!password || password === ""){
+        res.status(401).json({message: `Please fill all fields`});
+        throw new Error("Please fill all fields");
+    }
+    
     // Checking the password
     const currentUser = await User.findById(user._id).select('+password');
     if(currentUser && await currentUser.matchPassword(password)){
