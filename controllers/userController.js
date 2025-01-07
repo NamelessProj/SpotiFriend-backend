@@ -152,7 +152,7 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 // @desc   Delete a user
-// @route  DELETE /api/user/
+// @route  POST /api/user/delete
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
     const user = req.user;
