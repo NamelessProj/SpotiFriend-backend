@@ -40,4 +40,4 @@ const adminProtect = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = {protect,adminProtect};
+module.exports = {protect, adminProtect};
