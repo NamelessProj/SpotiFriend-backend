@@ -62,7 +62,8 @@ const createRoom = asyncHandler(async (req, res) => {
         res.status(400).json({message: "An error occurred while creating the room."});
         throw new Error("An error occurred while creating the room.");
     }
-    res.status(201).json({room});
+    const rooms = await Room.find({owner: user._id});
+    res.status(201).json({rooms});
 });
 
 // @desc   Updating a room
