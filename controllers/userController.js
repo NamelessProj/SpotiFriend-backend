@@ -156,19 +156,23 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
     const user = req.user;
-    if(!user){
-        res.status(401).json({message: "User not found."});
-        throw new Error("User not found.");
+    const {password} = req.body;
+    
+    // Checking the password
+    const currentUser = await User.findById(user._id).select('+password');
+    if(currentUser && await currentUser.matchPassword(password)){
+        await User.findByIdAndDelete(user._id);
+        await Room.deleteMany({owner: user._id});
+
+        res.cookie('jwt', '', {
+            httpOnly: true,
+            expires: new Date(0),
+        });
+        res.status(200).json({message: `The user has been deleted successfully.`});
+    }else{
+        res.status(401).json({message: `A problem occur while trying to delete your account, retry later.`});
+        throw new Error("A problem occur while trying to delete your account, retry later.");
     }
-
-    await User.findByIdAndDelete(user._id);
-    await Room.deleteMany({owner: user._id});
-
-    res.cookie('jwt', '', {
-        httpOnly: true,
-        expires: new Date(0),
-    });
-    res.status(200).json({message: `The user has been deleted successfully.`});
 });
 
 module.exports = {
