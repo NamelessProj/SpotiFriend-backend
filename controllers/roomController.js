@@ -102,7 +102,7 @@ const deleteRoom = asyncHandler(async (req, res) => {
         throw new Error("Room not found.");
     }
 
-    await Room.findByIdAndDelete(id);
+    await Room.findByIdAndDelete(room._id);
     const rooms = await Room.find({owner: user._id});
     res.status(200).json({rooms});
 });
