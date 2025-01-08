@@ -43,11 +43,11 @@ const createRoom = asyncHandler(async (req, res) => {
         throw new Error("Please fill all the required fields");
     }
 
-    // Checking if the room exist
-    const roomExists = await Room.findOne({name});
+    // Checking if the room exist already
+    const roomExists = await Room.findOne({name, owner: user._id});
     if(roomExists){
-        res.status(400).json({message: "This room already exist."});
-        throw new Error("This room already exist.");
+        res.status(400).json({message: "You already have one room called that way."});
+        throw new Error("You already have one room called that way.");
     }
 
     // Creating the room
@@ -80,8 +80,21 @@ const updateRoom = asyncHandler(async (req, res) => {
         throw new Error("Room not found.");
     }
 
+    // Checking if the name is already taken
+    if(req.body.name){
+        const roomExists = await Room.findOne({
+            name: req.body.name,
+            owner: user._id,
+            _id: {$ne: id}
+        });
+        if(roomExists){
+            res.status(400).json({message: "You already have one room called that way."});
+            throw new Error("You already have one room called that way.");
+        }
+        room.name = req.body.name; // Updating the room name if it's not already taken
+    }
+
     // Updating the room information
-    room.name = req.body.name || room.name;
     room.description = req.body.description || room.description;
     room.isPublic = req.body.isPublic;
 
