@@ -151,6 +151,32 @@ const updateUser = asyncHandler(async (req, res) => {
     res.status(200).json({user: returnUser});
 });
 
+// @desc   Update a user password
+// @route  PUT /api/user/password
+// @access Private
+const updateUserPassword = asyncHandler(async (req, res) => {
+    const user = req.user;
+    const {password, newPassword} = req.body;
+
+    // Checking if the password is filled
+    if(!password || password === "" || !newPassword || newPassword === ""){
+        res.status(401).json({message: `Please fill all fields`});
+        throw new Error("Please fill all fields");
+    }
+
+    // Checking the password
+    const currentUser = await User.findById(user._id).select('+password');
+    if(currentUser && await currentUser.matchPassword(password)){
+        currentUser.password = newPassword;
+        await currentUser.save();
+        const returnUser = Object.fromEntries(Object.entries(currentUser._doc).filter(([key]) => key !== 'password'));
+        res.status(200).json({user: returnUser});
+    }else{
+        res.status(401).json({message: `A problem occur while trying to update your password, retry later.`});
+        throw new Error("A problem occur while trying to update your password, retry later.");
+    }
+});
+
 // @desc   Delete a user
 // @route  POST /api/user/delete
 // @access Private
@@ -186,5 +212,6 @@ module.exports = {
     register,
     logout,
     updateUser,
+    updateUserPassword,
     deleteUser
 }
