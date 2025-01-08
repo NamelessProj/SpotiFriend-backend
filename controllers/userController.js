@@ -156,12 +156,18 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access Private
 const updateUserPassword = asyncHandler(async (req, res) => {
     const user = req.user;
-    const {password, newPassword} = req.body;
+    const {password, newPassword, confirmPassword} = req.body;
 
     // Checking if the password is filled
-    if(!password || password === "" || !newPassword || newPassword === ""){
+    if(!password || password === "" || !newPassword || newPassword === "" || !confirmPassword || confirmPassword === ""){
         res.status(401).json({message: `Please fill all fields`});
         throw new Error("Please fill all fields");
+    }
+
+    // Checking if the new password and the confirm password are the same
+    if(newPassword !== confirmPassword){
+        res.status(401).json({message: `The new password and the confirm password are not the same.`});
+        throw new Error("The new password and the confirm password are not the same.");
     }
 
     // Checking the password
