@@ -18,7 +18,7 @@ const addProposition = asyncHandler(async (req, res) => {
     res.status(201).json({message: "Proposition send."});
     // Sending an email to the room's owner
     const artists = song.artists.map(artist => artist.name).join(', ');
-    await sendEmail(room.owner.email, `New Proposition - ${room.name}`, `<h2>Room - ${room.name}</h2><p>A new proposition was sent.</p><br/><p><b>${song.name} - ${artists}</b></p><br/><p>Song name: <b>${song.name}</b></p><p>Song uri: <b>${song.uri}</b></p><p>Song url: <b>${song.external_urls.spotify}</b></p><p>Artists: <b>${artists}</b></p><p>Song href: <b>${song.href}</b><p>Song is explicit: <b>${song.explicit}</b></p></p>`);
+    await sendEmail(room.owner.email, `New Proposition - ${room.name}`, `<h2>Room - ${room.name}</h2><p>A new proposition was sent.</p><br/><p><b>${song.name} - ${artists}</b></p><br/><p>Song is explicit: <b>${song.explicit}</b></p><p>Song name: <b>${song.name}</b></p><p>Song uri: <b>${song.uri}</b></p><p>Song url: <b>${song.external_urls.spotify}</b></p><p>Artists: <b>${artists}</b></p><p>Song href: <b>${song.href}</b></p>`);
 });
 
 module.exports = {addProposition}
