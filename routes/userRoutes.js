@@ -23,6 +23,11 @@ router.route('/logout').post(userController.logout);
 // @access Private
 router.route('/').put(protect, userController.updateUser);
 
+// @route User route (PUT)
+// @desc Route to update a user password
+// @access Private
+router.route('/password').put(protect, userController.updateUserPassword);
+
 // @route User route (POST)
 // @desc Route to delete a user
 // @access Private
