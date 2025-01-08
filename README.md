@@ -32,6 +32,7 @@ MAILER_SECURE=true
 MAILER_PASS=your_mailer_password
 MAILER_USER=your_mailer_email
 MAILER_DEV_EMAIL=your_personal_email
+FRONTEND_URL=http://localhost:5173
 ```
 
 The `PORT` variable is the port on which the backend will run.
@@ -47,6 +48,8 @@ The `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` variables are the client ID 
 The `MAILER_HOST`, `MAILER_PORT`, `MAILER_SECURE`, `MAILER_PASS`, `MAILER_USER`, and `MAILER_DEV_EMAIL` variables are the configuration for the mailer service used to send emails.
 
 The `MAILER_DEV_EMAIL` variable is the email address to which the emails will be sent in development mode.
+
+The `FRONTEND_URL` variable is the URL of the frontend application.
 
 >[!TIP]
 > ### Using Gmail
