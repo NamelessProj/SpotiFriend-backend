@@ -28,7 +28,7 @@ app.use('/api/proposition', require('./routes/propositionRoutes'));
 app.use('/api/room', require('./routes/roomRoutes'));
 app.use('/api/access', require('./routes/accessRoutes'));
 
-app.use(errorHandler);
+//app.use(errorHandler);
 
 // Establishing the connection with the DB
 mongoose.connection.once('open', () => {
