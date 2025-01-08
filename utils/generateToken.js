@@ -8,7 +8,7 @@ const generateToken = (res, _id) => {
     res.cookie('spoti_jwt', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== 'dev',
-        sameSite: 'strict',
+        sameSite: process.env.NODE_ENV !== 'dev' ? 'lax' : 'strict',
         maxAge: 30*24*60*60*1000
     });
 }
