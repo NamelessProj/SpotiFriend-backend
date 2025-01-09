@@ -23,6 +23,19 @@ const getRoomById = asyncHandler(async (req, res) => {
     res.status(200).json({room});
 });
 
+// @desc   Getting a room by an id
+// @route  GET /api/room/slug/:slug
+// @access Public
+const getRoomBySlug = asyncHandler(async (req, res) => {
+    const {slug} = req.params;
+    const room = await Room.findOne({slug, isPublic: true});
+    if(!room){
+        res.status(404).json({message: "Room not found."});
+        throw new Error("Room not found.");
+    }
+    res.status(200).json({room});
+});
+
 // @desc   Creating a room
 // @route  POST /api/room/
 // @access Private
@@ -144,6 +157,7 @@ const deleteRoom = asyncHandler(async (req, res) => {
 module.exports = {
     getRooms,
     getRoomById,
+    getRoomBySlug,
     createRoom,
     updateRoom,
     deleteRoom
