@@ -52,13 +52,6 @@ const register = asyncHandler(async (req, res) => {
         throw new Error("This email is already in use.");
     }
 
-    // Checking if a user with this username exist, if yes sending an error
-    const usernameExists = await User.findOne({username});
-    if(usernameExists){
-        res.status(400).json({message: "This username is already taken."});
-        throw new Error("This username is already taken.");
-    }
-
     // Checks if the username is not too long or too short
     if(username.length < 3){
         res.status(400).json({message: "The username must be at least 3 characters."});
@@ -120,16 +113,6 @@ const updateUser = asyncHandler(async (req, res) => {
     if(emailExists){
         res.status(400).json({message: "This email is already in use."});
         throw new Error("This email is already in use.");
-    }
-
-    // Checking if a user with this username exist, if yes sending an error
-    const usernameExists = await User.findOne({
-        username: user.username,
-        _id: {$ne: user._id}
-    });
-    if(usernameExists){
-        res.status(400).json({message: "This username is already taken."});
-        throw new Error("This username is already taken.");
     }
 
     // Checks if the username is not too long or too short
