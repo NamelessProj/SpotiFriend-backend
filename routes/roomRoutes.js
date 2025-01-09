@@ -13,6 +13,11 @@ router.route('/').get(protect, roomController.getRooms);
 // @access Public
 router.route('/:id').get(roomController.getRoomById);
 
+// @route Room route (GET)
+// @desc Route to get a room by its slug
+// @access Public
+router.route('/slug/:slug').get(roomController.getRoomBySlug);
+
 // @route Room route (POST)
 // @desc Route to create a room
 // @access Private
