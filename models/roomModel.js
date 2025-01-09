@@ -14,12 +14,18 @@ const roomSchema = mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     },
     isPublic: {
         type: Boolean,
         default: false
     },
+    slug: {
+        type: String,
+        unique: true,
+        required: true
+    }
 });
 
 module.exports = mongoose.model('Room', roomSchema);
