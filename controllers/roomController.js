@@ -50,6 +50,11 @@ const createRoom = asyncHandler(async (req, res) => {
         throw new Error("You already have one room called that way.");
     }
 
+    // Getting the number of rooms with the same slug
+    let slug = name.toLowerCase().replace(/\s/g, '-');
+    const slugExists = await Room.find({slug}).countDocuments();
+    if(slugExists > 0) slug = `${slug}-${slugExists + 1}`;
+
     const description = req.body.description || '';
 
     // Creating the room
@@ -57,7 +62,8 @@ const createRoom = asyncHandler(async (req, res) => {
         name,
         description,
         isPublic,
-        owner: user._id
+        owner: user._id,
+        slug
     });
 
     if(!room){
@@ -74,6 +80,11 @@ const createRoom = asyncHandler(async (req, res) => {
 const updateRoom = asyncHandler(async (req, res) => {
     const {id} = req.params;
     const user = req.user;
+
+    if(req.body.isPublic === undefined){
+        res.status(400).json({message: "Please fill all the required fields"});
+        throw new Error("Please fill all the required");
+    }
 
     // Getting the room
     const room = await Room.findOne({_id: id, owner: user._id});
@@ -94,6 +105,13 @@ const updateRoom = asyncHandler(async (req, res) => {
             throw new Error("You already have one room called that way.");
         }
         room.name = req.body.name; // Updating the room name if it's not already taken
+
+        // Updating the slug
+        // Getting the number of rooms with the same slug
+        let slug = room.name.toLowerCase().replace(/\s/g, '-');
+        const slugExists = await Room.find({slug, _id: {$ne: id}}).countDocuments();
+        if(slugExists > 0) slug = `${slug}-${slugExists + 1}`;
+        room.slug = slug;
     }
 
     // Updating the room information
