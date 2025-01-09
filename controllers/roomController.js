@@ -27,7 +27,7 @@ const getRoomById = asyncHandler(async (req, res) => {
 // @route  POST /api/room/
 // @access Private
 const createRoom = asyncHandler(async (req, res) => {
-    const {name, description, isPublic} = req.body;
+    const {name, isPublic} = req.body;
     const user = req.user;
 
     // Making sure the user doesn't have more than 10 rooms
@@ -38,7 +38,7 @@ const createRoom = asyncHandler(async (req, res) => {
     }
 
     // Checking if the fields are filled
-    if(!name || !description || name === '' || description === '' || isPublic === undefined){
+    if(!name || name === '' || isPublic === undefined){
         res.status(400).json({message: "Please fill all the required fields"});
         throw new Error("Please fill all the required fields");
     }
@@ -49,6 +49,8 @@ const createRoom = asyncHandler(async (req, res) => {
         res.status(400).json({message: "You already have one room called that way."});
         throw new Error("You already have one room called that way.");
     }
+
+    const description = req.body.description || '';
 
     // Creating the room
     const room = await Room.create({
