@@ -12,10 +12,11 @@ const getRooms = asyncHandler(async (req, res) => {
 
 // @desc   Getting a room by an id
 // @route  GET /api/room/:id
-// @access Public
+// @access Private
 const getRoomById = asyncHandler(async (req, res) => {
     const {id} = req.params;
-    const room = await Room.findOne({_id: id, isPublic: true});
+    const user = req.user;
+    const room = await Room.findOne({_id: id, owner: user._id});
     if(!room){
         res.status(404).json({message: "Room not found."});
         throw new Error("Room not found.");
