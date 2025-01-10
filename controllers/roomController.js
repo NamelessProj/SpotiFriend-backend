@@ -58,6 +58,12 @@ const createRoom = asyncHandler(async (req, res) => {
         throw new Error("Please fill all the required fields");
     }
 
+    // Check if name is between 1 and 20 characters
+    if(name.length < 1 || name.length > 20){
+        res.status(400).json({message: "The name must be between 1 and 20 characters."});
+        throw new Error("The name must be between 1 and 20 characters.");
+    }
+
     // Checking if the room exist already
     const roomExists = await Room.findOne({name, owner: user._id});
     if(roomExists){
@@ -119,6 +125,13 @@ const updateRoom = asyncHandler(async (req, res) => {
             res.status(400).json({message: "You already have one room called that way."});
             throw new Error("You already have one room called that way.");
         }
+
+        // Check if name is between 1 and 20 characters
+        if(req.body.name.length < 1 || req.body.name.length > 20){
+            res.status(400).json({message: "The name must be between 1 and 20 characters."});
+            throw new Error("The name must be between 1 and 20 characters.");
+        }
+
         room.name = req.body.name; // Updating the room name if it's not already taken
 
         // Updating the slug
