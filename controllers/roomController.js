@@ -129,7 +129,7 @@ const updateRoom = asyncHandler(async (req, res) => {
     }
 
     // Updating the room information
-    room.description = req.body.description || room.description;
+    if(req.body.description) room.description = req.body.description;
     room.isPublic = req.body.isPublic;
 
     await room.save();
