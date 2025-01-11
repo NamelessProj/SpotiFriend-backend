@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Room = require('../models/roomModel');
-const createSlug = require('../utils/createSlug');
+const {createSlug} = require('../utils/createSlug');
 
 // @desc   Getting all rooms
 // @route  GET /api/room/
@@ -72,9 +72,7 @@ const createRoom = asyncHandler(async (req, res) => {
     }
 
     // Getting the number of rooms with the same slug
-    let slug = createSlug(name);
-    const slugExists = await Room.find({slug}).countDocuments();
-    if(slugExists > 0) slug = `${slug}-${slugExists + 1}`;
+    const slug = await createSlug(name);
 
     const description = req.body.description || '';
 
@@ -137,10 +135,7 @@ const updateRoom = asyncHandler(async (req, res) => {
 
         // Updating the slug
         // Getting the number of rooms with the same slug
-        let slug = createSlug(room.name);
-        const slugExists = await Room.find({slug, _id: {$ne: id}}).countDocuments();
-        if(slugExists > 0) slug = `${slug}-${slugExists + 1}`;
-        room.slug = slug;
+        room.slug = await createSlug(room.name, id);
     }
 
     // Updating the room information
